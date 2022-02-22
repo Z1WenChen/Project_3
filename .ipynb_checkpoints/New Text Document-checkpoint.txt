@@ -1,0 +1,25 @@
+11 Sectors:
+Energy
+Materials
+Industrials
+Utilities
+Healthcare
+Financials
+Consumer Discretionary
+Consumer Staples
+Information Technology
+Communication Services
+Real Estate
+
+Display summary statistics for the sector--> metrics and indicators, average return  etc. 
+Assign a company for a Risk Matrix Investment for each Sector so client can pick an investment:
+
+Capital Risk -------->
+Expected Return
+|     0 0 0
+|     0 0 0
+|     0 0 0
+V
+
+
+
