@@ -43,7 +43,7 @@ Minglu Li**
 
 *1) We calculated the speeds of GDP growth rate and Inflation growth rate respectively. In this way, we can categorize the 4 economic stages according to Merrill Lynch’s Investment Clock Theory.*
 
-![alt text](https://github.com/Z1WenChen/Project_3/blob/main/Documents/econ_graph.jpeg)
+![alt text](https://github.com/Z1WenChen/Project_3/blob/main/Documents/econ_graph.png)
 ![alt text](https://github.com/Z1WenChen/Project_3/blob/main/Documents/Merrill%20Lynch%20Investment%20Clock%20Theory.jpeg)
 
 *2) 
@@ -59,8 +59,9 @@ When speed of GDP growth > 0, and speed of inflation growth >  0
 When speed of GDP growth < 0, and speed of inflation growth > 0
 	Stagflation Stage (Stage 3)*
     
-    
-    
+
+
+
 
 **12 Underlying Assets**
 
@@ -70,7 +71,7 @@ When speed of GDP growth < 0, and speed of inflation growth > 0
 *2) Find the mean return of each ETF in each stage in order to find the top performers and worst performers in each economic stages.*
 
 ![alt text](https://github.com/Z1WenChen/Project_3/blob/main/Documents/ETFs.png)
-![alt text](https://github.com/Z1WenChen/Project_3/blob/main/Documents/mean_return_graph.png)
+![alt text](https://github.com/Z1WenChen/Project_3/blob/main/Documents/Mean_return_stage_graph.png)
 
 ------------------------------------------------------------------------------------------------------------
 
@@ -158,7 +159,7 @@ When speed of GDP growth < 0, and speed of inflation growth > 0
 
 **2) The top and worst performers in each economic stage are not necessarily exactly the same as the theory suggests in the recent 2 decades**
 
-**3) Our strategy yields a more stable return than the SPY benchmark and could be an investment solution during the market crisis **
+**3) Our strategy yields a more stable return than the SPY benchmark and could be an investment solution during the market crisis**
 
 ------------------------------------------------------------------------------------------------------------
 
