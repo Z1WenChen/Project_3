@@ -1,29 +1,51 @@
 import streamlit as st
 import yfinance as yf
 import pandas as pd
+import plotly.express as px
 
-from functions import stock_df, get_inflation, get_GDP, get_employment
+from functions import stock_df, get_inflation, get_GDP, get_unemployment, get_interest_rates, short_term_cycle
+from visualization import line_chart
 
 
 sectors = {
-            "Energy": ["XLE"], 
-           "Materials": ["XLB"], 
-           "Industrials": ["XLI"], 
-           "Utilities": ["XLU"], 
-           "Healthcare": ["XLV"], 
-           "Financials": ["XLF"], 
-           "Consumer Discretionary": ["XLY"], 
-           "Consumer Staples": ["XLP"], 
-           "Information Technology": ["SMH"], 
-           "Communication Services": ["XTL"], 
-           "Real Estate": ["IYR"]
+            "Energy": ["IYE"], 
+           "Materials": ["IYM"], 
+           "Industrials": ["IYJ"], 
+           "Utilities": ["IDU"], 
+           "Healthcare": ["IYH"], 
+           "Financials": ["IYF"], 
+           "Consumer Discretionary": ["IYC"], 
+           "Consumer Staples": ["IYK"], 
+           "Information Technology": ["IYW"], 
+           "Communication Services": ["IYZ"], 
+           "Real Estate": ["IYR"],
+           "Bonds": ["AGG"]
           }
 
-economic_factors = ["Inflation Rate", "Employment Rate", "Gross Domestic Product", "Interest Rates"]
+economic_factors = ["Inflation Rate", "Unemployment Rate", "Gross Domestic Product", "Interest Rates"]
 
+etf_tickers = ["IYE", "IYM", "IYJ", "IDU", "IYH", "IYF", "IYC", "IYK", "IYW", "IYZ", "IYR", "AGG"]
 
 
 st.markdown("# Testing ")
+
+
+short_term_econ_data = short_term_cycle()
+
+st.write("The recent changes in economic factors suggest the economy is in a short-term", str(short_term_econ_data["Economic Stage"][-1]).lower() , "condition.")
+
+if st.checkbox("Show short term phases"):
+    
+    st.plotly_chart(
+        line_chart(
+            short_term_econ_data["Stage Index"],
+            title = "Implied Economic Conditions",
+            y_ticks = short_term_econ_data["Economic Stage"], 
+            y_axis_title = "Economic Stage",
+            marker_status = True
+            )
+        )
+
 
 select_economic_factor = st.selectbox('Review Economic Status', [ "" ] + economic_factors)
 
@@ -36,18 +58,31 @@ if select_economic_factor:
         
         historic_inflation_rates = get_inflation(years, data_period)
         st.dataframe(historic_inflation_rates)
-        st.line_chart(historic_inflation_rates["Inflation Rate"])
+        
+        st.plotly_chart(
+            line_chart(
+                historic_inflation_rates["Inflation Rate"],
+                "Inflation Rate"
+            )
+        )
+#         st.line_chart(historic_inflation_rates["Inflation Rate"])
         
         st.write("Current Inflation Rate is", round( historic_inflation_rates.iloc[-1,0] , 4 ), "%.")
         
     if select_economic_factor == economic_factors[1]:
         
-        years = st.number_input("How many years of data would you like? (Max value is 83 years)", max_value = 83, value = 1)
+        years = st.number_input("How many years of data would you like? (Max value is 73 years)", max_value = 73, value = 1)
         data_period = st.selectbox("Would you like monthly updated or annual count?", ["Monthly", "Annual"])
         
-        historic_employment = get_employment(years, data_period)
-        st.dataframe(historic_employment)
-        st.line_chart(historic_employment["Employment in the Millions"])
+        historic_unemployment = get_unemployment(years, data_period)
+        st.dataframe(historic_unemployment)
+#         st.line_chart(historic_employment["Employment in the Millions"])
+        st.plotly_chart(
+            line_chart(
+                historic_unemployment["Unemployment Rate"],
+                "Unemployment Rate"
+            )
+        )
         
         
     if select_economic_factor == economic_factors[2]:
@@ -57,8 +92,28 @@ if select_economic_factor:
         
         historic_gdp = get_GDP(years, data_period)
         st.dataframe(historic_gdp)
-        st.line_chart(historic_gdp["USA GDP in $ Trillions"])
+#         st.line_chart(historic_gdp["USA GDP in $ Trillions"])
+        st.plotly_chart(
+            line_chart(
+                historic_gdp["USA GDP in $ Trillions"],
+                "USA GDP in $ Trillions"
+            )
+        )
+    
+    if select_economic_factor == economic_factors[3]:
         
+        years = st.number_input("How many years of data would you like? (Max value is 67 years)", max_value = 67, value = 1)
+        data_period = st.selectbox("Would you like monthly rates or annual rates?", ["Monthly", "Annual"])
+        
+        historic_interest = get_interest_rates(years, data_period)
+        st.dataframe(historic_interest)
+#         st.line_chart(historic_interest["Interest Rate"])
+        st.plotly_chart(
+            line_chart(
+                historic_interest["Interest Rate"],
+                "Interest Rate"
+            )
+        )
         
 
 
