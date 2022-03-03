@@ -27,8 +27,7 @@ Minglu Li**
 **Part 1: Data Preparation**
 
 
-*1) Imported monthly data of US GDP and Inflation from March 1st, 2004 to November 1st, 2011(FRED Economic Data)
-*
+*1) Imported monthly data of US GDP and Inflation from March 1st, 2004 to November 1st, 2011(FRED Economic Data)*
 
 
 *2) Imported 12 underlying assets (11 ETFs and 1 bond) for the same time period and frequency through Yahoo Finance API*
