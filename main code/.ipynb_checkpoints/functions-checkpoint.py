@@ -14,60 +14,31 @@ nasdaq_api_key = os.getenv("NASDAQ_API_KEY")
 nasdaqdatalink.ApiConfig.api_key = nasdaq_api_key
 
 
-def stock_df(ticker, start_date, end_date):
+def stock_df(ticker, start_date, end_date, interval_time = "1d"):
     
     stock = yf.Ticker(ticker)
-    stock_df = stock.history(start = start_date , end = end_date)
+    stock_df = stock.history(start = start_date , end = end_date, interval = interval_time)
     return stock_df
 
+def get_sector(ticker, etf_status = False):
+    
+    if etf_status == True:
+        stock = yf.Ticker(ticker)
+        max_val = 0
 
-# def get_inflation(years, period):
-    
-#     inflation_rate = []
-#     cpi_values = []
-#     datetime_values = []
+        for i in range(len(stock.info["sectorWeightings"])):
+            for x,y in stock.info["sectorWeightings"][i].items():
+                if y > max_val:
+                    max_val = y
+                    sector = x
+                    return sector
 
-#     #subtract by (years + 1) because we need the beginning annual inflation values by grabbing the year before's data
-#     start_year = dt.date.today().year - (years+1)
-#     reset_months = 1
-#     months =  ( (years + 1) * 12) + (dt.date.today().month-1)
+    if etf_status == False:    
+        stock = yf.Ticker(ticker)
+        sector = stock.info['sector']
+        return sector
 
-#     for i in range(months):
-    
-#         if reset_months > 12: 
-#             reset_months = 1
-#             start_year +=1
-        
-#         datetime_values.append(dt.date(start_year, reset_months, 1))
-    
-#         cpi_data = cpi.get(dt.date(start_year, reset_months, 1))
-#         cpi_values.append(cpi_data)
-     
-#         reset_months += 1
-    
-#         if i >= 12:
-#             inflation = (cpi_values[i] - cpi_values[i-12]) / cpi_values[i-12]
-#             inflation_rate.append(inflation)
 
-#     datetime_values = datetime_values[12:]
-  
-#     inflation_df = pd.DataFrame(data = {"Inflation Rate": inflation_rate}, index = datetime_values)  
-    
-    
-#     if period == "Monthly":
-        
-#         inflation_df["Percent Change"] = inflation_df["Inflation Rate"].pct_change()
-#         return inflation_df
-    
-#     if period == "Annual":
-        
-#         inflation_df.reset_index(inplace = True)
-#         inflation_df["Date"] = pd.to_datetime(inflation_df["index"])
-
-#         inflation_df = pd.DataFrame(inflation_df.groupby(inflation_df['Date'].dt.year)["Inflation Rate"].agg("mean"))
-#         inflation_df["Percent Change"] = inflation_df["Inflation Rate"].pct_change()
-        
-#         return inflation_df
 
 def get_inflation(years, period):
     
@@ -182,7 +153,7 @@ def get_interest_rates(years, period):
         interest_rates["Percent Change"] = interest_rates["Interest Rate"].pct_change()
         return interest_rates
 
-def short_term_cycle():
+def short_term_cycle(data_entries):
     
     gdp_data = nasdaqdatalink.get("FRED/GDP")
     gdp_data /= 1000
@@ -192,7 +163,7 @@ def short_term_cycle():
     cpi_data.rename(columns = {"Value": "CPI"}, inplace = True)
     
     econ_data = pd.concat([gdp_data, cpi_data], axis = 1)
-    econ_data =econ_data[-100:]
+    econ_data =econ_data[data_entries:]
     econ_data.dropna(inplace = True)
     
     econ_data["Inflation_Growth"] = econ_data["CPI"].pct_change()
@@ -221,6 +192,38 @@ def short_term_cycle():
     return econ_data
     
     
-def retrieve_metrics(ticker_df):
-    return 0
 
+    
+    
+def retrieve_beta(ticker_df, comparison_ticker_df):
+    
+
+    adjusted_return = ticker_df["Close"].pct_change()
+    benchmark_return = comparison_ticker_df["Close"].pct_change()
+    
+    rolling_ticker_cov = adjusted_return.rolling(window = 7).cov(benchmark_return)
+    benchmark_var = benchmark_return.rolling(window = 7).var()
+    
+    rolling_beta = rolling_ticker_cov/benchmark_var
+    
+    return rolling_beta
+
+def retrieve_std(ticker_df):
+    
+    rolling_volatility  = ticker_df["Close"].rolling(window = 7).std()
+    
+    return rolling_volatility
+
+def retrieve_sharpe(ticker_df):
+    
+    trading_days = 252
+    
+    adjusted_return = ticker_df["Close"].pct_change().dropna()
+    rolling_mean_return = adjusted_return.rolling(window = 7).mean()
+    annualized_average = rolling_mean_return * trading_days
+    
+    annualized_rolling_std = adjusted_return.rolling(window = 7).std() * trading_days ** (1/2)
+    
+    rolling_sharpe = annualized_average/annualized_rolling_std
+    
+    return rolling_sharpe
