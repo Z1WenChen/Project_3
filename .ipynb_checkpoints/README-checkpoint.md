@@ -27,8 +27,7 @@ Minglu Li**
 **Part 1: Data Preparation**
 
 
-*1) Imported monthly data of US GDP and Inflation from March 1st, 2004 to November 1st, 2011(FRED Economic Data)
-*
+*1) Imported monthly data of US GDP and Inflation from March 1st, 2004 to November 1st, 2011(FRED Economic Data)*
 
 
 *2) Imported 12 underlying assets (11 ETFs and 1 bond) for the same time period and frequency through Yahoo Finance API*
@@ -140,12 +139,14 @@ When speed of GDP growth < 0, and speed of inflation growth > 0
 
 *Finding 3: In general, our strategy is arguably more stable than SPY and could be an effective solution to the major market crisis*
 
+*Finding 4: The Sharpe ratio of prediction return is 5.3, and the Beta is 0.089*
+
 
 ------------------------------------------------------------------------------------------------------------
 
 **Part 4: Streamlit Dashboard**
 
-
+*Please review the codes "interface.py" in the folder "main code" for more details*
 
 
 
@@ -178,8 +179,7 @@ When speed of GDP growth < 0, and speed of inflation growth > 0
 
 **Comments**
 
-*Comment 1: *
+*Comment 1: Find Beta and Sharpe ratio of the portfolio*
 
-*Comment 2: *
-
+*The Sharpe ratio of prediction return is 5.3, and the Beta is 0.089*
 

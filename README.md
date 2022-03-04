@@ -139,6 +139,8 @@ When speed of GDP growth < 0, and speed of inflation growth > 0
 
 *Finding 3: In general, our strategy is arguably more stable than SPY and could be an effective solution to the major market crisis*
 
+*Finding 4: The Sharpe ratio of prediction return is 5.3, and the Beta is 0.089*
+
 
 ------------------------------------------------------------------------------------------------------------
 
@@ -177,8 +179,7 @@ When speed of GDP growth < 0, and speed of inflation growth > 0
 
 **Comments**
 
-*Comment 1: *
+*Comment 1: Find Beta and Sharpe ratio of the portfolio*
 
-*Comment 2: *
-
+*The Sharpe ratio of prediction return is 5.3, and the Beta is 0.089*
 
